@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smriti/utils/theme.dart';
+import 'package:smriti/views/create_edit.dart';
 
 class Smriti extends StatelessWidget {
   const Smriti({super.key});
@@ -15,7 +16,7 @@ class Smriti extends StatelessWidget {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in tincidunt justo.";
     var data3 = "#tag";
     return Scaffold(
-      backgroundColor: SmritiTheme.background,
+      backgroundColor: SmritiTheme.dark,
       body: Container(
         margin: const EdgeInsets.all(20),
         child: ListView(
@@ -35,7 +36,13 @@ class Smriti extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateEdit(),
+                          ));
+                    },
                     icon: Icon(
                       Icons.add_rounded,
                       color: SmritiTheme.primary,
@@ -91,7 +98,7 @@ class TagButton extends StatelessWidget {
     return OutlinedButton(
       style: ButtonStyle(
           side: WidgetStateProperty.all(BorderSide(color: SmritiTheme.primary)),
-          backgroundColor: WidgetStateProperty.all(SmritiTheme.background)),
+          backgroundColor: WidgetStateProperty.all(SmritiTheme.dark)),
       onPressed: () {},
       child: Text(
         tag,
