@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smriti/views/login.dart';
 import 'package:smriti/views/smriti.dart';
 
 void main() {
@@ -13,8 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'Smriti',
-      home: Smriti(),
+      home: Login(),
     );
   }
 }
-
