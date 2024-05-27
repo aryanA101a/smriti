@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:smriti/di/locator.dart';
 import 'package:smriti/utils/theme.dart';
-import 'package:smriti/views/smriti.dart';
+import 'package:smriti/viewmodels/home_viewmodel.dart';
+import 'package:smriti/views/home_page.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
+class LoginPage extends StatelessWidget {
+  static const route = "/login";
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,10 @@ class Login extends StatelessWidget {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Smriti(),
+                      builder: (context) => ChangeNotifierProvider(
+                        create: (context) => locator<HomeViewModel>(),
+                        child: HomePage(),
+                      ),
                     ),
                   );
                 },
@@ -39,21 +46,6 @@ class Login extends StatelessWidget {
                 text: "Connect with Google",
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 12),
-              child: AuthButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Smriti(),
-                    ),
-                  );
-                },
-                icon: Icons.cloud_off_outlined,
-                text: "Continue",
-              ),
-            )
           ],
         ),
       ),

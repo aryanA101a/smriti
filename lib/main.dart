@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:smriti/views/login.dart';
-import 'package:smriti/views/smriti.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:smriti/di/locator.dart';
+import 'package:smriti/viewmodels/home_viewmodel.dart';
+import 'package:smriti/views/home_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // Status bar color
+  ));
+  await setupLocator();
+  runApp(const SmritiApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SmritiApp extends StatelessWidget {
+  const SmritiApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Smriti',
-      home: Login(),
+      home: ChangeNotifierProvider(
+                          create: (context) => locator<HomeViewModel>(),
+                          child: HomePage(),
+                        ),
     );
   }
 }
