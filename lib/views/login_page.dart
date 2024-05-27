@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smriti/di/locator.dart';
 import 'package:smriti/utils/theme.dart';
+import 'package:smriti/viewmodels/login_viewmodel.dart';
 import 'package:smriti/viewmodels/home_viewmodel.dart';
 import 'package:smriti/views/home_page.dart';
 
@@ -31,16 +32,24 @@ class LoginPage extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: 32),
               child: AuthButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                        create: (context) => locator<HomeViewModel>(),
-                        child: HomePage(),
+                onPressed: () async {
+                  var credentials =
+                      await context.read<LoginViewModel>().googleSignIn();
+                  if (credentials != null) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (context) => locator<HomeViewModel>(),
+                          child: HomePage(),
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text('Something went wrong!'),
+                    ));
+                  }
                 },
                 icon: FontAwesomeIcons.google,
                 text: "Connect with Google",

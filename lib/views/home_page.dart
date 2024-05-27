@@ -29,53 +29,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Container(
               margin: EdgeInsets.only(top: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(right: 6),
-                    child: CircleAvatar(
-                      radius: 18,
-                      backgroundColor: SmritiTheme.secondary,
-                      child: Icon(Icons.person),
-                    ),
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: "${getGreeting()}, ",
-                      style: GoogleFonts.lato(color: SmritiTheme.secondary),
-                      children: [
-                        TextSpan(
-                            text: "User",
-                            style: TextStyle(color: SmritiTheme.primary)),
-                      ],
-                    ),
-                  ),
-                  Spacer(),
-                  IconButton(
-                      onPressed: () async {
-                        bool? result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChangeNotifierProvider(
-                                create: (context) =>
-                                    locator<CreateEditViewModel>(),
-                                child: CreateEditPage(),
-                              ),
-                            ));
-                        if (!context.mounted) return;
-                        if (result != null && result == false) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Empty note discarded!'),
-                          ));
-                        }
-                      },
-                      icon: Icon(
-                        Icons.add_rounded,
-                        color: SmritiTheme.primary,
-                      ))
-                ],
-              ),
+              child: AppBar(),
             ),
             Divider(),
             Expanded(
@@ -105,6 +59,68 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class AppBar extends StatefulWidget {
+  const AppBar({
+    super.key,
+  });
+
+  @override
+  State<AppBar> createState() => _AppBarState();
+}
+
+class _AppBarState extends State<AppBar> {
+  @override
+  Widget build(BuildContext context) {
+    String name = context.select<HomeViewModel, String>((value) => value.name);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          margin: EdgeInsets.only(right: 6),
+          child: CircleAvatar(
+            radius: 18,
+            backgroundColor: SmritiTheme.secondary,
+            child: Icon(Icons.person),
+          ),
+        ),
+        RichText(
+          text: TextSpan(
+            text: "${getGreeting()}, ",
+            style: GoogleFonts.lato(color: SmritiTheme.secondary),
+            children: [
+              TextSpan(
+                  text: name.isEmpty ? "User" : name,
+                  style: TextStyle(color: SmritiTheme.primary)),
+            ],
+          ),
+        ),
+        Spacer(),
+        IconButton(
+            onPressed: () async {
+              bool? result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChangeNotifierProvider(
+                      create: (context) => locator<CreateEditViewModel>(),
+                      child: CreateEditPage(),
+                    ),
+                  ));
+              if (!context.mounted) return;
+              if (result != null && result == false) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Empty note discarded!'),
+                ));
+              }
+            },
+            icon: Icon(
+              Icons.add_rounded,
+              color: SmritiTheme.primary,
+            ))
+      ],
     );
   }
 }

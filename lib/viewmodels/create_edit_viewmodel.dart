@@ -47,8 +47,9 @@ class CreateEditViewModel extends ChangeNotifier {
       title: titleController.text,
       body: bodyController.text,
     );
-    _smritiRepository.save(smriti);
     locator<HomeViewModel>().addSmriti(smriti);
+    _smritiRepository.save(smriti);
+
     return true;
   }
 

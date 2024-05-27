@@ -5,14 +5,14 @@
   "entities": [
     {
       "id": "1:5272811649752304343",
-      "lastPropertyId": "6:5898045686429042219",
+      "lastPropertyId": "7:7158364480002104988",
       "name": "Smriti",
       "properties": [
         {
           "id": "1:7709389618334848102",
           "name": "id",
           "type": 6,
-          "flags": 1
+          "flags": 129
         },
         {
           "id": "2:6935855021610003663",
@@ -38,12 +38,41 @@
           "id": "6:5898045686429042219",
           "name": "body",
           "type": 9
+        },
+        {
+          "id": "7:7158364480002104988",
+          "name": "synced",
+          "type": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:4649168301953587620",
+      "lastPropertyId": "3:9188790563659644175",
+      "name": "AuthStatus",
+      "properties": [
+        {
+          "id": "1:2951858587421105573",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2819126526412106859",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:9188790563659644175",
+          "name": "email",
+          "type": 9
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:3756020982339505630",
+  "lastEntityId": "3:4649168301953587620",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

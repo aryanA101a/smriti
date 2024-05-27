@@ -14,6 +14,7 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'models/auth_status_model.dart';
 import 'models/smriti_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -22,14 +23,14 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 5272811649752304343),
       name: 'Smriti',
-      lastPropertyId: const obx_int.IdUid(6, 5898045686429042219),
+      lastPropertyId: const obx_int.IdUid(7, 7158364480002104988),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(1, 7709389618334848102),
             name: 'id',
             type: 6,
-            flags: 1),
+            flags: 129),
         obx_int.ModelProperty(
             id: const obx_int.IdUid(2, 6935855021610003663),
             name: 'date',
@@ -53,6 +54,35 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(6, 5898045686429042219),
             name: 'body',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 7158364480002104988),
+            name: 'synced',
+            type: 1,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(3, 4649168301953587620),
+      name: 'AuthStatus',
+      lastPropertyId: const obx_int.IdUid(3, 9188790563659644175),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 2951858587421105573),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 2819126526412106859),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 9188790563659644175),
+            name: 'email',
             type: 9,
             flags: 0)
       ],
@@ -95,7 +125,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(2, 3756020982339505630),
+      lastEntityId: const obx_int.IdUid(3, 4649168301953587620),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -124,13 +154,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final tagOffset = fbb.writeString(object.tag);
           final titleOffset = fbb.writeString(object.title);
           final bodyOffset = fbb.writeString(object.body);
-          fbb.startTable(7);
+          fbb.startTable(8);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.date.millisecondsSinceEpoch);
           fbb.addInt64(2, object.lastUpdated.millisecondsSinceEpoch);
           fbb.addOffset(3, tagOffset);
           fbb.addOffset(4, titleOffset);
           fbb.addOffset(5, bodyOffset);
+          fbb.addBool(6, object.synced);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -149,13 +180,46 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 12, '');
           final bodyParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 14, '');
+          final syncedParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 16, false);
           final object = Smriti(
               id: idParam,
               date: dateParam,
               lastUpdated: lastUpdatedParam,
               tag: tagParam,
               title: titleParam,
-              body: bodyParam);
+              body: bodyParam,
+              synced: syncedParam);
+
+          return object;
+        }),
+    AuthStatus: obx_int.EntityDefinition<AuthStatus>(
+        model: _entities[1],
+        toOneRelations: (AuthStatus object) => [],
+        toManyRelations: (AuthStatus object) => {},
+        getId: (AuthStatus object) => object.id,
+        setId: (AuthStatus object, int id) {
+          object.id = id;
+        },
+        objectToFB: (AuthStatus object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          final emailOffset = fbb.writeString(object.email);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, nameOffset);
+          fbb.addOffset(2, emailOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final nameParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final emailParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final object = AuthStatus(name: nameParam, email: emailParam)
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
         })
@@ -188,4 +252,23 @@ class Smriti_ {
   /// See [Smriti.body].
   static final body =
       obx.QueryStringProperty<Smriti>(_entities[0].properties[5]);
+
+  /// See [Smriti.synced].
+  static final synced =
+      obx.QueryBooleanProperty<Smriti>(_entities[0].properties[6]);
+}
+
+/// [AuthStatus] entity fields to define ObjectBox queries.
+class AuthStatus_ {
+  /// See [AuthStatus.id].
+  static final id =
+      obx.QueryIntegerProperty<AuthStatus>(_entities[1].properties[0]);
+
+  /// See [AuthStatus.name].
+  static final name =
+      obx.QueryStringProperty<AuthStatus>(_entities[1].properties[1]);
+
+  /// See [AuthStatus.email].
+  static final email =
+      obx.QueryStringProperty<AuthStatus>(_entities[1].properties[2]);
 }

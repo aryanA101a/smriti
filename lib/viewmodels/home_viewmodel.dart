@@ -1,25 +1,47 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:smriti/models/smriti_model.dart';
+import 'package:smriti/repository/auth_repository.dart';
 import 'package:smriti/repository/smriti_repository.dart';
 
 class HomeViewModel extends ChangeNotifier {
   final SmritiRepository _smritiRepository;
+  final AuthRepository _authRepository;
 
-  HomeViewModel(this._smritiRepository) {
+  HomeViewModel(this._smritiRepository, this._authRepository) {
     retrieveSmritis();
-    retrieveTags();
+    retrieveName();
   }
 
-  List<Smriti> _smritis = [];
-  List<String> _tags = [];
+  String _name = "";
+  String get name => _name;
 
+  List<Smriti> _smritis = [];
   List<Smriti> get smritis => _smritis;
+
+  StreamController<List<Smriti>> smritisController = StreamController();
+
+  List<String> _tags = [];
   List<String> get tags => _tags;
 
-  void retrieveSmritis() {
-    _smritis = _smritiRepository.getAll();
+  void retrieveName() {
+    var authStatus = _authRepository.getAuthStatus();
+
+    if (authStatus != null) {
+      _name = authStatus.name;
+    }
     notifyListeners();
+  }
+
+  void retrieveSmritis() {
+    log("retrieveSmritis");
+    _smritiRepository.getAll(smritisController);
+    smritisController.stream.listen((event) {
+      _smritis = event;
+      notifyListeners();
+      retrieveTags();
+    });
   }
 
   void retrieveTags() {
