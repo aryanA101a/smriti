@@ -277,7 +277,7 @@ class SmritiListTile extends StatelessWidget {
         children: [
           Divider(),
           Text(
-            smriti.title.isEmpty ? smriti.body : smriti.title,
+            smriti.title.isEmpty ? smriti.body.trim() : smriti.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -285,7 +285,7 @@ class SmritiListTile extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(top: 8, bottom: 16),
-            child: Text(smriti.body,
+            child: Text(smriti.body.trim(),
                 maxLines: 2,
                 style: TextStyle(
                     fontFamily: "Lato",
