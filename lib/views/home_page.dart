@@ -1,9 +1,6 @@
 import 'dart:developer';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smriti/di/locator.dart';
 import 'package:smriti/models/smriti_model.dart';
@@ -41,12 +38,11 @@ class _HomePageState extends State<HomePage> {
                   Center(
                     child: Text(
                       "aapki\n  smriti",
-                      style: GoogleFonts.lato(
-                        textStyle: TextStyle(
-                            fontSize: 70,
-                            color: SmritiTheme.primary,
-                            fontWeight: FontWeight.w500),
-                      ),
+                      style: TextStyle(
+                          fontFamily: "Lato",
+                          fontSize: 70,
+                          color: SmritiTheme.primary,
+                          fontWeight: FontWeight.w500),
                     ),
                   ),
                   Container(
@@ -97,7 +93,10 @@ class _AppBarState extends State<AppBar> {
         RichText(
           text: TextSpan(
             text: "${getGreeting()}, ",
-            style: GoogleFonts.lato(color: SmritiTheme.secondary),
+            style: TextStyle(
+              color: SmritiTheme.secondary,
+              fontFamily: "Lato",
+            ),
             children: [
               TextSpan(
                   text: name.isEmpty ? "User" : name,
@@ -193,7 +192,8 @@ class _SmritisState extends State<Smritis> {
                 children: [
                   Text(
                     "Oops! No Smriti",
-                    style: GoogleFonts.lato(
+                    style: TextStyle(
+                      fontFamily: "Lato",
                       fontSize: 26,
                       color: SmritiTheme.secondary,
                     ),
@@ -204,7 +204,8 @@ class _SmritisState extends State<Smritis> {
                       },
                       child: Text(
                         "Start creating...",
-                        style: GoogleFonts.lato(
+                        style: TextStyle(
+                          fontFamily: "Lato",
                           fontSize: 26,
                           color: SmritiTheme.active,
                         ),
@@ -242,7 +243,8 @@ class TagButton extends StatelessWidget {
       onPressed: onPressed,
       child: Text(
         tag,
-        style: GoogleFonts.lato(fontSize: 22, color: SmritiTheme.primary),
+        style: TextStyle(
+            fontFamily: "Lato", fontSize: 22, color: SmritiTheme.primary),
       ),
     );
   }
@@ -278,14 +280,17 @@ class SmritiListTile extends StatelessWidget {
             smriti.title.isEmpty ? smriti.body : smriti.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.lato(fontSize: 28, color: SmritiTheme.primary),
+            style: TextStyle(
+                fontFamily: "Lato", fontSize: 28, color: SmritiTheme.primary),
           ),
           Container(
             margin: EdgeInsets.only(top: 8, bottom: 16),
             child: Text(smriti.body,
                 maxLines: 2,
-                style: GoogleFonts.lato(
-                    fontSize: 18, color: SmritiTheme.secondary)),
+                style: TextStyle(
+                    fontFamily: "Lato",
+                    fontSize: 18,
+                    color: SmritiTheme.secondary)),
           ),
         ],
       ),

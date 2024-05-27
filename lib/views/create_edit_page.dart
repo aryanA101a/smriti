@@ -126,7 +126,10 @@ class _CreateEditPageState extends State<CreateEditPage> {
                   onSubmitted: (value) =>
                       FocusScope.of(context).requestFocus(bodyFocus),
                   maxLines: 1,
-                  style: TextStyle(color: SmritiTheme.dark, fontSize: 36),
+                  style: TextStyle(
+                      fontFamily: "Lato",
+                      color: SmritiTheme.dark,
+                      fontSize: 36),
                   decoration: InputDecoration(
                     hintText: "Title",
                     border: InputBorder.none,
@@ -141,8 +144,10 @@ class _CreateEditPageState extends State<CreateEditPage> {
                   focusNode: bodyFocus,
                   onTapOutside: (event) =>
                       FocusScope.of(context).requestFocus(bodyFocus),
-                  style: TextStyle(color: SmritiTheme.secondary),
+                  style: TextStyle(
+                      fontFamily: "Lato", color: SmritiTheme.secondary),
                   decoration: InputDecoration(
+                    hintText: "Write here...",
                     border: InputBorder.none,
                   ),
                   maxLines: null,

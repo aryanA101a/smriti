@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smriti/di/locator.dart';
 import 'package:smriti/utils/theme.dart';
@@ -22,12 +21,11 @@ class LoginPage extends StatelessWidget {
           children: [
             Text(
               "smriti",
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
-                    fontSize: 70,
-                    color: SmritiTheme.active,
-                    fontWeight: FontWeight.w500),
-              ),
+              style: TextStyle(
+                  fontFamily: "Lato",
+                  fontSize: 70,
+                  color: SmritiTheme.active,
+                  fontWeight: FontWeight.w500),
             ),
             Container(
               margin: EdgeInsets.only(top: 32),
@@ -94,7 +92,8 @@ class AuthButton extends StatelessWidget {
             margin: EdgeInsets.only(left: 10),
             child: Text(
               text,
-              style: GoogleFonts.lato(fontSize: 26, color: SmritiTheme.dark),
+              style: TextStyle(
+                  fontFamily: "Lato", fontSize: 26, color: SmritiTheme.dark),
             ),
           ),
         ],
