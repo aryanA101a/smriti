@@ -60,7 +60,7 @@ class HomeViewModel extends ChangeNotifier {
     retrieveTags();
   }
 
-  void deleteSmriti(int id) {
+  int deleteSmriti(int id) {
     int index = _smritis.indexWhere((element) => element.id == id);
     if (index != -1) {
       _smritis = [
@@ -70,6 +70,7 @@ class HomeViewModel extends ChangeNotifier {
       notifyListeners();
       retrieveTags();
     }
+    return index;
   }
 
   void updateSmriti(Smriti smriti) {
@@ -85,5 +86,21 @@ class HomeViewModel extends ChangeNotifier {
       notifyListeners();
       retrieveTags();
     }
+  }
+
+  void restoreSmriti(int index, Smriti smriti) {
+    if (index != -1) {
+      _smritis = [
+        ..._smritis.sublist(0, index),
+        smriti,
+        ..._smritis.sublist(index + 1)
+      ];
+      notifyListeners();
+      retrieveTags();
+    }
+  }
+
+  String? getProfilePhoto() {
+    return _authRepository.getProfilePhoto();
   }
 }

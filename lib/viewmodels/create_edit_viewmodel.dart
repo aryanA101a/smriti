@@ -53,9 +53,11 @@ class CreateEditViewModel extends ChangeNotifier {
     return true;
   }
 
-  void deleteSmriti(int id) {
-    _smritiRepository.delete(id);
-    locator<HomeViewModel>().deleteSmriti(id);
+  void deleteSmriti(Smriti smriti) async {
+    int index = locator<HomeViewModel>().deleteSmriti(smriti.id);
+    bool deleted = await _smritiRepository.delete(smriti.id);
+    if (!deleted) locator<HomeViewModel>().restoreSmriti(index,smriti);
+    ;
   }
 
   bool updateSmriti(Smriti smriti) {

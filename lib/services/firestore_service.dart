@@ -91,18 +91,23 @@ class FirestoreService {
         .toList();
   }
 
-  Future<void> deleteSmriti(int id) async {
+  Future<bool> deleteSmriti(int id) async {
     User? user = _auth.currentUser;
     if (user == null) {
       throw Exception('No user logged in');
     }
-
-    String userId = user.uid;
-    await _firestore
-        .collection('users')
-        .doc(userId)
-        .collection('smritis')
-        .doc(id.toString())
-        .delete();
+    try {
+      String userId = user.uid;
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('smritis')
+          .doc(id.toString())
+          .delete();
+      return true;
+    } catch (e) {
+      log(e.toString());
+    }
+    return false;
   }
 }

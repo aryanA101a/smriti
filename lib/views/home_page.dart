@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smriti/di/locator.dart';
@@ -82,10 +84,15 @@ class _AppBarState extends State<AppBar> {
         Container(
           margin: EdgeInsets.only(right: 6),
           child: CircleAvatar(
-            radius: 18,
-            backgroundColor: SmritiTheme.secondary,
-            child: Icon(Icons.person),
-          ),
+              radius: 18,
+              backgroundColor: SmritiTheme.secondary,
+              child: ClipOval(
+                child: Image.network(
+                  context.read<HomeViewModel>().getProfilePhoto() ?? "",
+                  errorBuilder: (context, error, stackTrace) =>
+                      Icon(Icons.person),
+                ),
+              )),
         ),
         RichText(
           text: TextSpan(
@@ -100,21 +107,8 @@ class _AppBarState extends State<AppBar> {
         ),
         Spacer(),
         IconButton(
-            onPressed: () async {
-              bool? result = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(
-                      create: (context) => locator<CreateEditViewModel>(),
-                      child: CreateEditPage(),
-                    ),
-                  ));
-              if (!context.mounted) return;
-              if (result != null && result == false) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Empty note discarded!'),
-                ));
-              }
+            onPressed: () {
+              createSmriti(context);
             },
             icon: Icon(
               Icons.add_rounded,
@@ -122,6 +116,23 @@ class _AppBarState extends State<AppBar> {
             ))
       ],
     );
+  }
+}
+
+createSmriti(BuildContext context) async {
+  bool? result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChangeNotifierProvider(
+          create: (context) => locator<CreateEditViewModel>(),
+          child: CreateEditPage(),
+        ),
+      ));
+  if (!context.mounted) return;
+  if (result != null && result == false) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Empty note discarded!'),
+    ));
   }
 }
 
@@ -170,13 +181,44 @@ class _SmritisState extends State<Smritis> {
   Widget build(BuildContext context) {
     var smritis =
         context.select<HomeViewModel, List<Smriti>>((value) => value.smritis);
+    if (smritis.isEmpty)
+      return Column(
+        children: [
+          Divider(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * .4,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Oops! No Smriti",
+                    style: GoogleFonts.lato(
+                      fontSize: 26,
+                      color: SmritiTheme.secondary,
+                    ),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        createSmriti(context);
+                      },
+                      child: Text(
+                        "Start creating...",
+                        style: GoogleFonts.lato(
+                          fontSize: 26,
+                          color: SmritiTheme.active,
+                        ),
+                      ))
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
     return ListView(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      children: List.generate(
-        smritis.length,
-        (index) => SmritiListTile(smriti: smritis[index]),
-      ),
+      children: smritis.map((e) => SmritiListTile(smriti: e)).toList(),
     );
   }
 }

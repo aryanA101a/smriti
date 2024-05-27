@@ -28,4 +28,8 @@ class AuthRepository {
   AuthStatus? getAuthStatus() {
     return _cacheService.getAuthStatus();
   }
+
+  String? getProfilePhoto() {
+    return _authService.profilePhoto();
+  }
 }

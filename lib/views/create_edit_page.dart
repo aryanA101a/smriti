@@ -72,7 +72,7 @@ class _CreateEditPageState extends State<CreateEditPage> {
                         onPressed: () {
                           context
                               .read<CreateEditViewModel>()
-                              .deleteSmriti(widget.smriti!.id);
+                              .deleteSmriti(widget.smriti!);
                           Navigator.pop(context);
                         },
                         child: Text(

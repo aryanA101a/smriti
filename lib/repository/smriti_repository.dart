@@ -37,7 +37,9 @@ class SmritiRepository {
     await _firestoreService.saveSmritis(updates);
   }
 
-  bool delete(int id) {
-    return _cacheDatabase.delete(id);
+  Future<bool> delete(int id) async {
+    bool deleted = await _firestoreService.deleteSmriti(id);
+    if (deleted) _cacheDatabase.delete(id);
+    return deleted;
   }
 }
