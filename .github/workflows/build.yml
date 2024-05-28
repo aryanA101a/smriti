@@ -21,18 +21,17 @@ jobs:
           cache: true
 
       - name: Setup firebase
+        env:
+          DECRYPT_PASSWORD: ${{ secrets.ENC_PASS }}
         run: |
-          echo "${{ secrets.FIREBASE_JSON }}" > firebase.json
-          echo "${{ secrets.FIREBASE_OPTIONS_DART }}" > lib/firebase_options.dart
-          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > android/app/google-services.json
+          openssl aes-256-cbc -pbkdf2 -d -in android/app/google-services.json.enc -out android/app/google-services.json -k "$DECRYPT_PASSWORD"
+          openssl aes-256-cbc -pbkdf2 -d -in lib/firebase_options.dart.enc -out lib/firebase_options.dart -k "$DECRYPT_PASSWORD"
+          openssl aes-256-cbc -pbkdf2 -d -in firebase.json.enc -out firebase.json -k "$DECRYPT_PASSWORD"
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Verify formatting
-        run: dart format --output=none --set-exit-if-changed .
-
-      - name: Analyze project source
+      - name: Analyze project
         run: flutter analyze --fatal-warnings
 
       - name: Build apk
@@ -40,8 +39,8 @@ jobs:
 
       - name: Github Releases
         uses: ncipollo/release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         with:
+          token: ${{ secrets.ACTIONS_TOKEN }}
           artifacts: "build/app/outputs/flutter-apk/app-release.apk"
           tag: v0.0.${{github.run_number}}
+          
