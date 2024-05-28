@@ -1,0 +1,47 @@
+name: Flutter
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  flutter_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          flutter-version: "3.22.1"
+          cache: true
+
+      - name: Setup firebase
+        run: |
+          echo "${{ secrets.FIREBASE_JSON }}" > firebase.json
+          echo "${{ secrets.FIREBASE_OPTIONS_DART }}" > lib/firebase_options.dart
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > android/app/google-services.json
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        run: flutter analyze --fatal-warnings
+
+      - name: Build apk
+        run: flutter build apk
+
+      - name: Github Releases
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk"
+          tag: v0.0.${{github.run_number}}
