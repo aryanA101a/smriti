@@ -59,6 +59,8 @@ dev_dependencies:
   build_runner: ^2.4.10
   objectbox_generator: any
   flutter_native_splash: ^2.4.0
+  flutter_launcher_icons: ^0.13.1
+
 
 
 # For information on the generic Dart part of this file, see the
