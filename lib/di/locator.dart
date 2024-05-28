@@ -21,12 +21,13 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton<FirestoreService>(() => FirestoreService());
 
   locator.registerLazySingleton<SmritiRepository>(
-      () => SmritiRepository(locator(),locator()));
+      () => SmritiRepository(locator(), locator()));
 
   locator.registerLazySingleton<AuthRepository>(
       () => AuthRepository(locator(), locator()));
 
-  locator.registerLazySingleton<HomeViewModel>(() => HomeViewModel(locator(),locator()));
+  locator.registerLazySingleton<HomeViewModel>(
+      () => HomeViewModel(locator(), locator()));
 
   locator.registerFactory<CreateEditViewModel>(
       () => CreateEditViewModel(locator()));

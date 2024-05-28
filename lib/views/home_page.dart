@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:smriti/di/locator.dart';
 import 'package:smriti/models/smriti_model.dart';
@@ -27,15 +25,15 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 16),
-              child: AppBar(),
+              margin: const EdgeInsets.only(top: 16),
+              child: const AppBar(),
             ),
-            Divider(),
+            const Divider(),
             Expanded(
               child: ListView(
                 shrinkWrap: true,
                 children: [
-                  Center(
+                  const Center(
                     child: Text(
                       "aapki\n  smriti",
                       style: TextStyle(
@@ -46,11 +44,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 16),
+                    margin: const EdgeInsets.symmetric(vertical: 16),
                     height: 42,
-                    child: Tags(),
+                    child: const Tags(),
                   ),
-                  Smritis()
+                  const Smritis()
                 ],
               ),
             )
@@ -78,7 +76,7 @@ class _AppBarState extends State<AppBar> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Container(
-          margin: EdgeInsets.only(right: 6),
+          margin: const EdgeInsets.only(right: 6),
           child: CircleAvatar(
               radius: 18,
               backgroundColor: SmritiTheme.secondary,
@@ -86,30 +84,30 @@ class _AppBarState extends State<AppBar> {
                 child: Image.network(
                   context.read<HomeViewModel>().getProfilePhoto() ?? "",
                   errorBuilder: (context, error, stackTrace) =>
-                      Icon(Icons.person),
+                      const Icon(Icons.person),
                 ),
               )),
         ),
         RichText(
           text: TextSpan(
             text: "${getGreeting()}, ",
-            style: TextStyle(
+            style: const TextStyle(
               color: SmritiTheme.secondary,
               fontFamily: "Lato",
             ),
             children: [
               TextSpan(
                   text: name.isEmpty ? "User" : name,
-                  style: TextStyle(color: SmritiTheme.primary)),
+                  style: const TextStyle(color: SmritiTheme.primary)),
             ],
           ),
         ),
-        Spacer(),
+        const Spacer(),
         IconButton(
             onPressed: () {
               createSmriti(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.add_rounded,
               color: SmritiTheme.primary,
             ))
@@ -124,12 +122,12 @@ createSmriti(BuildContext context) async {
       MaterialPageRoute(
         builder: (context) => ChangeNotifierProvider(
           create: (context) => locator<CreateEditViewModel>(),
-          child: CreateEditPage(),
+          child: const CreateEditPage(),
         ),
       ));
   if (!context.mounted) return;
   if (result != null && result == false) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Empty note discarded!'),
     ));
   }
@@ -155,7 +153,7 @@ class _TagsState extends State<Tags> {
       children: tags
           .map(
             (e) => Container(
-                margin: EdgeInsets.only(right: 12),
+                margin: const EdgeInsets.only(right: 12),
                 child: TagButton(
                   tag: e,
                   onPressed: () {},
@@ -180,17 +178,17 @@ class _SmritisState extends State<Smritis> {
   Widget build(BuildContext context) {
     var smritis =
         context.select<HomeViewModel, List<Smriti>>((value) => value.smritis);
-    if (smritis.isEmpty)
+    if (smritis.isEmpty) {
       return Column(
         children: [
-          Divider(),
+          const Divider(),
           SizedBox(
             height: MediaQuery.of(context).size.height * .4,
             child: Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     "Oops! No Smriti",
                     style: TextStyle(
                       fontFamily: "Lato",
@@ -202,7 +200,7 @@ class _SmritisState extends State<Smritis> {
                       onPressed: () {
                         createSmriti(context);
                       },
-                      child: Text(
+                      child: const Text(
                         "Start creating...",
                         style: TextStyle(
                           fontFamily: "Lato",
@@ -216,8 +214,9 @@ class _SmritisState extends State<Smritis> {
           ),
         ],
       );
+    }
     return ListView(
-      physics: ClampingScrollPhysics(),
+      physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
       children: smritis.map((e) => SmritiListTile(smriti: e)).toList(),
     );
@@ -238,12 +237,13 @@ class TagButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       style: ButtonStyle(
-          side: WidgetStateProperty.all(BorderSide(color: SmritiTheme.primary)),
+          side: WidgetStateProperty.all(
+              const BorderSide(color: SmritiTheme.primary)),
           backgroundColor: WidgetStateProperty.all(SmritiTheme.dark)),
       onPressed: onPressed,
       child: Text(
         tag,
-        style: TextStyle(
+        style: const TextStyle(
             fontFamily: "Lato", fontSize: 22, color: SmritiTheme.primary),
       ),
     );
@@ -275,19 +275,19 @@ class SmritiListTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Divider(),
+          const Divider(),
           Text(
             smriti.title.isEmpty ? smriti.body.trim() : smriti.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: const TextStyle(
                 fontFamily: "Lato", fontSize: 28, color: SmritiTheme.primary),
           ),
           Container(
-            margin: EdgeInsets.only(top: 8, bottom: 16),
+            margin: const EdgeInsets.only(top: 8, bottom: 16),
             child: Text(smriti.body.trim(),
                 maxLines: 2,
-                style: TextStyle(
+                style: const TextStyle(
                     fontFamily: "Lato",
                     fontSize: 18,
                     color: SmritiTheme.secondary)),

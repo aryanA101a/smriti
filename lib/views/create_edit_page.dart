@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smriti/models/smriti_model.dart';
@@ -8,8 +7,8 @@ import 'package:smriti/viewmodels/create_edit_viewmodel.dart';
 class CreateEditPage extends StatefulWidget {
   static const route = "/CreateEdit";
 
-  Smriti? smriti;
-  CreateEditPage({super.key, this.smriti});
+  final Smriti? smriti;
+  const CreateEditPage({super.key, this.smriti});
 
   @override
   State<CreateEditPage> createState() => _CreateEditPageState();
@@ -22,10 +21,10 @@ class _CreateEditPageState extends State<CreateEditPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    if (widget.smriti != null)
+    if (widget.smriti != null) {
       context.read<CreateEditViewModel>().loadSmriti(widget.smriti!);
+    }
   }
 
   @override
@@ -62,7 +61,7 @@ class _CreateEditPageState extends State<CreateEditPage> {
                     onPressed: () {
                       onPop(widget.smriti, context);
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_rounded,
                       color: SmritiTheme.dark,
                     ),
@@ -75,25 +74,25 @@ class _CreateEditPageState extends State<CreateEditPage> {
                               .deleteSmriti(widget.smriti!);
                           Navigator.pop(context);
                         },
-                        child: Text(
+                        child: const Text(
                           "delete",
                           style:
                               TextStyle(color: SmritiTheme.dark, fontSize: 16),
                         ))
                 ],
               ),
-              Divider(
+              const Divider(
                 color: SmritiTheme.dark,
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 16),
+                margin: const EdgeInsets.only(bottom: 16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       date,
-                      style:
-                          TextStyle(color: SmritiTheme.secondary, fontSize: 16),
+                      style: const TextStyle(
+                          color: SmritiTheme.secondary, fontSize: 16),
                     ),
                     SizedBox(
                       width: 60,
@@ -105,9 +104,9 @@ class _CreateEditPageState extends State<CreateEditPage> {
                             FocusScope.of(context).requestFocus(titleFocus),
                         maxLines: 1,
                         textAlign: TextAlign.start,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: SmritiTheme.secondary, fontSize: 16),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: "#tag",
                             hintStyle: TextStyle(
@@ -118,7 +117,7 @@ class _CreateEditPageState extends State<CreateEditPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 0),
+                margin: const EdgeInsets.only(bottom: 0),
                 child: TextField(
                   controller:
                       context.read<CreateEditViewModel>().titleController,
@@ -126,11 +125,11 @@ class _CreateEditPageState extends State<CreateEditPage> {
                   onSubmitted: (value) =>
                       FocusScope.of(context).requestFocus(bodyFocus),
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontFamily: "Lato",
                       color: SmritiTheme.dark,
                       fontSize: 36),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Title",
                     border: InputBorder.none,
                   ),
@@ -144,9 +143,9 @@ class _CreateEditPageState extends State<CreateEditPage> {
                   focusNode: bodyFocus,
                   onTapOutside: (event) =>
                       FocusScope.of(context).requestFocus(bodyFocus),
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontFamily: "Lato", color: SmritiTheme.secondary),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Write here...",
                     border: InputBorder.none,
                   ),
@@ -163,7 +162,7 @@ class _CreateEditPageState extends State<CreateEditPage> {
 
 void onPop(Smriti? smriti, BuildContext context) {
   if (smriti != null) {
-    context.read<CreateEditViewModel>().updateSmriti(smriti!);
+    context.read<CreateEditViewModel>().updateSmriti(smriti);
     Navigator.pop(context);
   } else {
     bool result = context.read<CreateEditViewModel>().saveSmriti();

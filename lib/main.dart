@@ -14,7 +14,7 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // Status bar color
   ));
   await Firebase.initializeApp();
@@ -33,11 +33,11 @@ class SmritiApp extends StatelessWidget {
       home: locator<AuthRepository>().getAuthStatus() == null
           ? ChangeNotifierProvider(
               create: (context) => locator<LoginViewModel>(),
-              child: LoginPage(),
+              child: const LoginPage(),
             )
           : ChangeNotifierProvider(
               create: (context) => locator<HomeViewModel>(),
-              child: HomePage(),
+              child: const HomePage(),
             ),
     );
   }

@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               "smriti",
               style: TextStyle(
                   fontFamily: "Lato",
@@ -28,23 +28,24 @@ class LoginPage extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
             Container(
-              margin: EdgeInsets.only(top: 32),
+              margin: const EdgeInsets.only(top: 32),
               child: AuthButton(
                 onPressed: () async {
                   var credentials =
                       await context.read<LoginViewModel>().googleSignIn();
+                  if (!context.mounted) return;
                   if (credentials != null) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ChangeNotifierProvider(
                           create: (context) => locator<HomeViewModel>(),
-                          child: HomePage(),
+                          child: const HomePage(),
                         ),
                       ),
                     );
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Something went wrong!'),
                     ));
                   }
@@ -77,8 +78,9 @@ class AuthButton extends StatelessWidget {
     return OutlinedButton(
       style: ButtonStyle(
           padding: WidgetStateProperty.all(
-              EdgeInsets.symmetric(vertical: 10, horizontal: 16)),
-          side: WidgetStateProperty.all(BorderSide(color: SmritiTheme.dark)),
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 16)),
+          side: WidgetStateProperty.all(
+              const BorderSide(color: SmritiTheme.dark)),
           backgroundColor: WidgetStateProperty.all(SmritiTheme.primary)),
       onPressed: onPressed,
       child: Row(
@@ -89,10 +91,10 @@ class AuthButton extends StatelessWidget {
             color: SmritiTheme.dark,
           ),
           Container(
-            margin: EdgeInsets.only(left: 10),
+            margin: const EdgeInsets.only(left: 10),
             child: Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                   fontFamily: "Lato", fontSize: 26, color: SmritiTheme.dark),
             ),
           ),

@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:smriti/models/smriti_model.dart';
 import 'package:smriti/services/cache_service.dart';
 import 'package:smriti/services/firestore_service.dart';
