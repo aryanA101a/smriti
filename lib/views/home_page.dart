@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                     height: 42,
                     child: Tags(),
                   ),
-                  Expanded(child: Smritis())
+                  Smritis()
                 ],
               ),
             )
@@ -217,7 +217,7 @@ class _SmritisState extends State<Smritis> {
         ],
       );
     return ListView(
-      physics: NeverScrollableScrollPhysics(),
+      physics: ClampingScrollPhysics(),
       shrinkWrap: true,
       children: smritis.map((e) => SmritiListTile(smriti: e)).toList(),
     );
