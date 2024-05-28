@@ -1,15 +1,18 @@
 # Smriti
 An elegant notes app.
-
+<p float="left">
+<img src="https://github.com/aryanA101a/smriti/assets/23309033/30e22834-d93f-4766-b762-3cbcc74ae355" width="20%">
 <img src="https://github.com/aryanA101a/smriti/assets/23309033/61d795ab-be28-44f9-ae2b-67e0e45dbd69" width="20%">
 <img src="https://github.com/aryanA101a/smriti/assets/23309033/b0369d80-4a78-49d3-bb9b-45d15c7e554a" width="20%">
 
+</p>
 
 
 ## Milestones 🚩
 - [x] Local Cache
 - [x] Cloud Sync with firebase_firestore      
 - [ ] Full offline mode
+- [ ] Better error handling
 
 ## Project Structure 🧬
 ```
@@ -42,11 +45,17 @@ lib
     └── login_page.dart
 ```
 
+## Run 🏃
+1. Setup firebase, specifically enable google auth and cloud firestore.
+2. `dart format .`
+3. `flutter analyze --fatal-warnings`
+4. `flutter run`
+
 ## Dependencies 🖇️
 1. get_it (Dependency Injection)
 2. provider (State Management)
 3. objectbox (Local Database)
-4. cloud_firestore (Online Database)
+4. cloud_firestore (Cloud Database)
 
 ## Contributing 🎉
 Pull requests are welcome.  
